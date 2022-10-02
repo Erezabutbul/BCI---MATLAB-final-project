@@ -1,0 +1,13 @@
+function [StotalR3 ,StotalR4 ,StotalL3 ,StotalL4,baselineC3,baselineC4] = generateSPEC(rightHandLebeled, ...
+    leftHandLebeled,C4,C3,nOfTrialsPerHand,sizeOfWindowSPEC,nOverLapSPEC,dataBase)
+
+
+[StotalR3 ] = specHelper(rightHandLebeled,C3,sizeOfWindowSPEC,nOverLapSPEC,nOfTrialsPerHand,'all',dataBase);
+[StotalR4 ] = specHelper(rightHandLebeled,C4,sizeOfWindowSPEC,nOverLapSPEC,nOfTrialsPerHand,'all',dataBase);
+[StotalL3 ] = specHelper(leftHandLebeled,C3,sizeOfWindowSPEC,nOverLapSPEC,nOfTrialsPerHand,'all',dataBase);
+[StotalL4 ] = specHelper(leftHandLebeled,C4,sizeOfWindowSPEC,nOverLapSPEC,nOfTrialsPerHand,'all',dataBase);
+[baselineC3 ] = specHelper(rightHandLebeled,C3,sizeOfWindowSPEC,nOverLapSPEC,64,'baseline',dataBase);
+[baselineC4 ] = specHelper(rightHandLebeled,C4,sizeOfWindowSPEC,nOverLapSPEC,64,'baseline',dataBase);
+baselineC3 = mean(baselineC3);
+baselineC4 = mean(baselineC4);
+

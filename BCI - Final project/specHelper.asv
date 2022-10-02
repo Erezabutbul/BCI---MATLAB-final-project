@@ -1,0 +1,18 @@
+function [Stotal, freqNormaltotal, Ttotal] = specHelper(indecesHandLabels,electrode,sizeOfWindowSPEC,nOverLapSPEC,nOfTrialsPerHand,range,dataBase)
+
+f = (1:0.1:40);
+Stotal = 0;
+freqNormaltotal = 0;
+Ttotal = 0;
+samplingRate = 128;
+rangeOfcalc;
+if(strcmp(range,'all'))
+    rangeOfcal = 
+for i = 1:nOfTrialsPerHand
+    [s1,freqNormal1,t1] = spectrogram(dataBase.data(indecesHandLabels(i),:,electrode), ...
+        sizeOfWindowSPEC,nOverLapSPEC,f,samplingRate);
+    freqNormaltotal = freqNormaltotal + freqNormal1;
+    Ttotal = Ttotal + t1;
+    Stotal = Stotal + 10*log10((abs(s1)).^2);
+end
+

@@ -1,0 +1,37 @@
+function [featuresMatrix] = featureExtractorFINALTRAILfeatureExtractorFINALTRAIL(version,numberOfTrials, numOfFeatures,starTimeSTDC3,starTimeSTDC4,startTimeFreq18,samplingRate,totalTrialTime,startTimeFreq10,endTimefreq10C4,startTimeHighCloud,endTimeHighCloud,startTimeSpectralEntropy,startTimeApproxEntropyC3,startTimeApproxEntropyC4,endTimeApproxEntropyC3,endTimeApproxEntropyC4,nOverLapPwelch,sizeOfWindowPwelch,C3,C4,dataBase)
+
+% Extract features from the data 
+[freq18C3,freq18C4] = freq18(C3 ,C4 ,startTimeFreq18 ,totalTrialTime,samplingRate ,dataBase);
+[STDC3,STDC4] = STDfeature(C3 ,C4 ,starTimeSTDC3 ,starTimeSTDC4 ,totalTrialTime,dataBase);
+
+
+%% COMPACT VERSION
+
+if (strcmp(version,"compact"))
+    featuresMatrix = zeros(numberOfTrials, numOfFeatures);
+    featuresMatrix(:, 1) = freq18C4;
+    featuresMatrix(:, 2) = STDC3;
+    featuresMatrix(:, 3) = STDC4;
+
+%% LARGE VERSION
+else
+    featuresMatrix = zeros(numberOfTrials, numOfFeatures);
+
+    [highCloudC3,highCloudC4] = highCloud(0, 0,startTimeHighCloud,endTimeHighCloud,samplingRate,C3, C4,dataBase);
+    [freq10C3,freq10C4] = freq10(0, 0, startTimeFreq10,totalTrialTime,endTimefreq10C4,samplingRate,C3, C4, dataBase);
+    [SEC3,SEC4] = spectralEntropy(0,0 ,C3 ,C4,startTimeSpectralEntropy,totalTrialTime,samplingRate ,numberOfTrials ,dataBase);
+    [approximateEntropyC3,approximateEntropyC4] = approximateEntropyFeature(0,0,startTimeApproxEntropyC3,startTimeApproxEntropyC4,endTimeApproxEntropyC3,endTimeApproxEntropyC4,C3,C4,numberOfTrials,dataBase);
+    [PSstdC3,PSstdC4,PSmeanC3,PSmeanC4] = PSfeature(0,0,startTimeImagination,totalTrialTime,C3,C4,sizeOfWindowPwelch,nOverLapPwelch,numberOfTrials,startTimePSfeature,dataBase);
+
+    featuresMatrix(:, 1) = freq18C3;
+    featuresMatrix(:, 2) = freq18C4;
+    featuresMatrix(:, 3) = highCloudC3;
+    featuresMatrix(:, 4) = highCloudC4;
+    featuresMatrix(:, 5) = approximateEntropyC4;
+    featuresMatrix(:, 6) = STDC3;
+    featuresMatrix(:, 7) = STDC4;
+    featuresMatrix(:, 8) = PSstdC3;
+    featuresMatrix(:, 9) = PSstdC4;
+    featuresMatrix(:, 10) = PSmeanC3;
+    featuresMatrix(:, 11) = PSmeanC4;
+end

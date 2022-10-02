@@ -1,0 +1,51 @@
+function [SEC3,SEC4] = spectralEntropy(rightHandLebeled,leftHandLebeled,C3,C4,dataBase)
+
+% for i = 1 : 64
+%     rC4 = rC4 + pentropy(dataBase.data(rightHandLebeled(i),:,C4)',128);
+%     lC4 = lC4 + pentropy(dataBase.data(leftHandLebeled(i),:,C4)',128);
+%     
+%     
+%     rC3 = rC3 + pentropy(dataBase.data(rightHandLebeled(i),:,C3)',128);
+%     lC3 = lC3 + pentropy(dataBase.data(leftHandLebeled(i),:,C3)',128);
+% end
+
+rC4 = zeros(size(rightHandLebeled));
+lC4 = zeros(size(rightHandLebeled));
+rC3 = zeros(size(rightHandLebeled));
+lC3 = zeros(size(rightHandLebeled));
+    
+for i = 1 : 64
+    rC4(i) = mean(pentropy(dataBase.data(rightHandLebeled(i),256:768,C4)',128));
+    lC4(i) = mean(pentropy(dataBase.data(leftHandLebeled(i),256:768,C4)',128));
+    
+    
+    rC3(i) = mean(pentropy(dataBase.data(rightHandLebeled(i),256:768,C3)',128));
+    lC3(i) = mean(pentropy(dataBase.data(leftHandLebeled(i),256:768,C3)',128));
+end
+
+
+% As in freq18
+SEC3(rightHandLabeled) = rC3;
+highCloudC3(leftHandLabeled) = lC3;
+highCloudC4(rightHandLabeled) = rC4;
+highCloudC4(leftHandLabeled) = lC4;
+
+% SEC3 = [rC4/64,lC4/64];
+% SEC4 = [rC3/64,lC3/64];
+
+
+figure
+title("C4 histogram")
+histogram(rC4)
+hold on
+histogram(lC4)
+legend("RightC4","LeftC4")
+
+
+figure
+title("C3 title")
+histogram(rC3)
+hold on
+histogram(lC3)
+legend("RightC3","LeftC3")
+

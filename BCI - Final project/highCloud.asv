@@ -1,0 +1,34 @@
+function [highCloudC3,highCloudC4] = highCloud(rightHandLebeled,leftHandLebeled,C3,C4,dataBase)
+
+% didnt find good correlations yet
+
+% rC4 = bandpower(dataBase.data(rightHandLebeled,608:768,C4)',128,[33 35]);
+% lC4 = bandpower(dataBase.data(leftHandLebeled,608:768,C4)',128,[33 35]);
+rC4 = bandpower(10*log10(dataBase.data(rightHandLebeled,608:768,C4)'
+),128,[33 35]);
+lC4 = bandpower(dataBase.data(leftHandLebeled,608:768,C4)',128,[33 35]);
+
+rC3 = bandpower(dataBase.data(rightHandLebeled,608:729,C3)',128,[31 34]);
+lC3 = bandpower(dataBase.data(leftHandLebeled,608:729,C3)',128,[31 34]);
+
+
+highCloudC4 = [rC4,lC4];
+highCloudC3 = [rC3,lC3];
+
+
+figure
+title("C4 histogram")
+histogram(rC4)
+hold on
+histogram(lC4)
+legend("RightC4","LeftC4")
+
+
+figure
+title("C3 title")
+histogram(rC3)
+hold on
+histogram(lC3)
+legend("RightC3","LeftC3")
+
+

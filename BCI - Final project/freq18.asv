@@ -1,0 +1,35 @@
+function [freq18C3,freq18C4] = freq18(rightHandLabeled,leftHandLabeled,C3,C4,dataBase)
+
+
+rC4 = bandpower(dataBase.data(rightHandLabeled,640:768,C4)',128,[15 17]);
+lC4 = bandpower(dataBase.data(leftHandLabeled,640:768,C4)',128,[15 17]);
+
+rC3 = bandpower(dataBase.data(rightHandLabeled,640:768,C3)',128,[15 17]);
+lC3 = bandpower(dataBase.data(leftHandLabeled,640:768,C3)',128,[15 17]);
+
+
+% % fix this output:
+% freq18C3 = [rC3,lC3];
+% freq18C4 = [rC4,lC4];
+
+% it should be an output vector for each elec, while each value in it 
+% corresponding to it's trial, means index = order number of trial
+% rC3 and such are needed for the histograms
+% this form of output is neccesary for the next step - pca function
+freq18C3(rightHandLabeled) = rC3;
+freq18C3(leftHandLabeled) = lC3;
+freq18C4(rightHandLabeled) = rC4;
+freq18C4(leftHandLabeled) = lC4;
+
+
+figure
+histogram(rC4)
+hold on
+histogram(lC4)
+legend("RightC4","LeftC4")
+
+figure
+histogram(rC3)
+hold on
+histogram(lC3)
+legend("RightC3","LeftC3")
